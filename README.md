@@ -1,0 +1,1 @@
+# Pentti on ohjelmisto arduinolle jolla lähetetään napin painallukset serverille.
