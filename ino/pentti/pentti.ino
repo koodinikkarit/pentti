@@ -12,7 +12,7 @@ byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 static byte mymac[] = { 0x74,0x69,0x69,0x2D,0x30,0x31 };
 
 unsigned char buttonPins[12] = {
-  47,45,43,41,39,37,35,33,31,22,24,26
+  47,45,43,41,39,37,35,29,31,22,24,26
 };
 
 bool buttonStates[12] = {
@@ -34,6 +34,13 @@ static void my_callback(byte status, word off, word len) {
 	Serial.println("...");
 }
 
+void receiveCommand(int port, byte ip[4], char *data, int len) {
+  char gUDPdata[30] = "";
+  data[0] = 0;
+  strcpy(data, gUDPdata);
+  Serial.println(gUDPdata);
+}
+
 void setup() {
 	Serial.begin(9600);
 
@@ -47,10 +54,10 @@ void setup() {
 	ether.hisport = 3111;
   for (int i = 0; i < 12; i++) {
     Serial.println(buttonPins[i]);
-    pinMode(buttonPins[i], INPUT);
+    pinMode(buttonPins[i], INPUT_PULLUP);
     
   }
-
+  ether.udpServerListenOnPort(&receiveCommand, 4444);
 }
 
 void buttonStateChanged(int pin, bool state) {
